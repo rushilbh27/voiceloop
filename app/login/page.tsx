@@ -15,72 +15,114 @@ export default function LoginPage() {
     e.preventDefault()
     setError('')
     setLoading(true)
-
     const supabase = createClient()
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
     if (authError) {
       setError(authError.message)
       setLoading(false)
       return
     }
-
     router.push('/dashboard')
     router.refresh()
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <span className="text-4xl">🤖</span>
-          <h1 className="mt-3 text-2xl font-semibold text-gray-900">AI Calling Demo</h1>
-          <p className="mt-1 text-sm text-gray-500">Sign in to access the portal</p>
+    <div className="grid-bg min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+
+      {/* Ambient glows */}
+      <div style={{
+        position: 'fixed', top: '10%', left: '20%',
+        width: 600, height: 600, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)',
+        pointerEvents: 'none'
+      }} />
+      <div style={{
+        position: 'fixed', bottom: '10%', right: '15%',
+        width: 400, height: 400, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)',
+        pointerEvents: 'none'
+      }} />
+
+      <div className="animate-fade-in-up w-full max-w-sm relative z-10">
+
+        {/* Logo */}
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: 56, height: 56, borderRadius: 16,
+            background: 'linear-gradient(135deg, #7C3AED, #9F67FF)',
+            boxShadow: '0 8px 32px rgba(124,58,237,0.4)',
+            marginBottom: 20,
+          }}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.87 9.83 19.79 19.79 0 01.81 1.2 2 2 0 012.8 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <h1 className="font-display" style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
+            VoiceLoop
+          </h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>
+            AI voice agent demo portal
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4">
+        {/* Card */}
+        <div className="glass-strong" style={{ borderRadius: 20, padding: 32 }}>
           {error && (
-            <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            <div style={{
+              background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)',
+              borderRadius: 10, padding: '10px 14px', marginBottom: 20,
+              fontSize: 13, color: '#EF4444',
+            }}>
               {error}
             </div>
           )}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              autoFocus
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm shadow-sm placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <div>
+              <label className="vl-label">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                autoFocus
+                className="vl-input"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm shadow-sm placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
+            <div>
+              <label className="vl-label">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="••••••••••"
+                required
+                className="vl-input"
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {loading ? 'Signing in…' : 'Sign in'}
-          </button>
-        </form>
+            <div style={{ marginTop: 4 }}>
+              <button type="submit" disabled={loading} className="vl-btn-primary">
+                {loading ? (
+                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" style={{ animation: 'spin-slow 0.8s linear infinite' }}>
+                      <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="2" fill="none"/>
+                      <path d="M12 2a10 10 0 0 1 10 10" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+                    </svg>
+                    Signing in…
+                  </span>
+                ) : 'Sign in →'}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <p style={{ textAlign: 'center', marginTop: 24, fontSize: 12, color: 'var(--text-subtle)' }}>
+          Authorized access only
+        </p>
       </div>
     </div>
   )
