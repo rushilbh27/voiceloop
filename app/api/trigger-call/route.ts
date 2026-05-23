@@ -79,6 +79,7 @@ export async function POST(req: NextRequest) {
         agentId,
         phoneNumber,
         templateContext: fullTemplateContext,
+        webhookCallId,
       })
     } catch (err) {
       // Mark call as failed if Ultravox errors

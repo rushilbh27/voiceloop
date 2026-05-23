@@ -7,10 +7,14 @@ function getHeaders() {
   }
 }
 
+// Durable tool ID for voiceloop_saveOutput
+export const VOICELOOP_SAVE_OUTPUT_TOOL_ID = '9eb72144-4a0e-4458-a636-5e961e948ca4'
+
 export interface CreateCallParams {
   agentId: string
   phoneNumber: string
   templateContext: Record<string, string>
+  webhookCallId: string
 }
 
 export interface UltravoxCallResponse {
@@ -59,7 +63,7 @@ export function getEATDateTime(): {
 export async function createOutboundCall(
   params: CreateCallParams
 ): Promise<UltravoxCallResponse> {
-  const { agentId, phoneNumber, templateContext } = params
+  const { agentId, phoneNumber, templateContext, webhookCallId } = params
   const sipHost = process.env.SIP_TRUNK_HOST!
   const sipFrom = process.env.SIP_FROM_NAME!
   const sipNumber = toSipNumber(phoneNumber)
@@ -76,6 +80,13 @@ export async function createOutboundCall(
     initialOutputMedium: 'MESSAGE_MEDIUM_VOICE',
     recordingEnabled: true,
     templateContext,
+    // Inject saveOutput tool with callId override so webhook routing works
+    selectedTools: [
+      {
+        toolId: VOICELOOP_SAVE_OUTPUT_TOOL_ID,
+        parameterOverrides: { callId: webhookCallId },
+      },
+    ],
   }
 
   const res = await fetch(`${ULTRAVOX_API_BASE}/agents/${agentId}/calls`, {
