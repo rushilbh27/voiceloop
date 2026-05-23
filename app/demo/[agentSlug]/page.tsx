@@ -10,9 +10,9 @@ interface PageProps {
 }
 
 const TAG_COLORS: Record<string, string> = {
-  Sales: '#9F67FF',
-  Collections: '#F87171',
-  Outbound: '#34D399',
+  Sales: '#FF3B3B',
+  Collections: '#FACC15',
+  Outbound: '#2DD4A0',
   Inbound: '#60A5FA',
 }
 
@@ -25,61 +25,55 @@ export default async function DemoPage({ params }: PageProps) {
   const agent = getAgentBySlug(agentSlug)
   if (!agent) notFound()
 
-  const accentColor = TAG_COLORS[agent.tag] ?? '#9F67FF'
+  const accent = TAG_COLORS[agent.tag] ?? '#FF3B3B'
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)' }} className="grid-bg">
+    <div className="page">
       <Navbar userEmail={user.email} />
 
-      <main style={{ maxWidth: 800, margin: '0 auto', padding: '40px 24px 80px' }}>
-
+      <main className="container" style={{ maxWidth: 720, padding: '32px 24px 80px' }}>
         {/* Back */}
-        <div style={{ marginBottom: 32, opacity: 0, animation: 'fadeInUp 0.4s ease 0.05s forwards' }}>
+        <div className="animate-enter" style={{ marginBottom: 24 }}>
           <Link href="/dashboard" style={{
             textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6,
-            fontSize: 13, color: 'var(--text-muted)',
-            transition: 'color 0.15s',
-          }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            fontSize: 12, color: 'var(--text-3)', fontFamily: 'var(--font-mono)',
+            transition: 'color 0.1s',
+          }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            Back to agents
+            back
           </Link>
         </div>
 
-        {/* Page header */}
-        <div style={{ marginBottom: 32, opacity: 0, animation: 'fadeInUp 0.4s ease 0.1s forwards' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
+        {/* Header */}
+        <div className="animate-enter" style={{ marginBottom: 28, animationDelay: '0.04s' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
             <div style={{
-              width: 48, height: 48, borderRadius: 14,
-              background: `${accentColor}18`,
-              border: `1px solid ${accentColor}30`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 8, height: 8, borderRadius: 2,
+              background: accent,
+            }} />
+            <span style={{
+              fontSize: 10, fontWeight: 700, fontFamily: 'var(--font-mono)',
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: accent,
             }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.87 9.83 19.79 19.79 0 01.81 1.2 2 2 0 012.8 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke={accentColor} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <div>
-              <span style={{
-                fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase',
-                color: accentColor, display: 'block', marginBottom: 4,
-              }}>
-                {agent.tag}
-              </span>
-              <h1 className="font-display" style={{ fontSize: 28, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>
-                {agent.name}
-              </h1>
-            </div>
+              {agent.tag}
+            </span>
           </div>
-          <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>
+          <h1 style={{
+            fontSize: 22, fontWeight: 700, color: 'var(--text)',
+            letterSpacing: '-0.02em', marginBottom: 4,
+          }}>
+            {agent.name}
+          </h1>
+          <p style={{ fontSize: 13, color: 'var(--text-2)' }}>
             {agent.description}
           </p>
         </div>
 
         {/* Form */}
-        <div style={{ opacity: 0, animation: 'fadeInUp 0.4s ease 0.18s forwards' }}>
+        <div className="animate-enter" style={{ animationDelay: '0.08s' }}>
           <DemoForm agent={agent} />
         </div>
       </main>

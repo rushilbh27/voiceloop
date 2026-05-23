@@ -14,28 +14,26 @@ interface DemoFormProps {
 }
 
 function VariableFormFields({
-  fields,
-  values,
-  onChange,
+  fields, values, onChange,
 }: {
   fields: AgentConfig['templateContext']
   values: Record<string, string>
   onChange: (v: Record<string, string>) => void
 }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       {fields.map(field => (
         <div key={field.key}>
-          <label className="vl-label">
+          <label className="field-label">
             {field.label}
-            {field.required && <span style={{ color: '#7C3AED', marginLeft: 3 }}>*</span>}
+            {field.required && <span style={{ color: 'var(--red)', marginLeft: 3 }}>*</span>}
           </label>
           {field.type === 'select' && field.options ? (
             <select
               value={values[field.key] ?? ''}
               onChange={e => onChange({ ...values, [field.key]: e.target.value })}
               required={field.required}
-              className="vl-input vl-select"
+              className="field-input field-select"
             >
               <option value="" disabled>{field.placeholder}</option>
               {field.options.map(opt => (
@@ -49,7 +47,7 @@ function VariableFormFields({
               onChange={e => onChange({ ...values, [field.key]: e.target.value })}
               placeholder={field.placeholder}
               required={field.required}
-              className="vl-input"
+              className="field-input"
             />
           )}
         </div>
@@ -58,7 +56,7 @@ function VariableFormFields({
   )
 }
 
-function SonarVisual({ phoneNumber }: { phoneNumber: string }) {
+function CallActive({ phoneNumber }: { phoneNumber: string }) {
   const [elapsed, setElapsed] = useState(0)
   const start = useRef(Date.now())
 
@@ -71,75 +69,51 @@ function SonarVisual({ phoneNumber }: { phoneNumber: string }) {
   const ss = String(elapsed % 60).padStart(2, '0')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px', gap: 32 }}>
-
-      {/* Sonar rings */}
-      <div style={{ position: 'relative', width: 160, height: 160, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {/* Ring 1 */}
-        <div style={{
-          position: 'absolute', inset: 0, borderRadius: '50%',
-          border: '1px solid rgba(16,185,129,0.6)',
-          animation: 'sonar 2.4s ease-out infinite',
-        }} />
-        {/* Ring 2 */}
-        <div style={{
-          position: 'absolute', inset: 0, borderRadius: '50%',
-          border: '1px solid rgba(16,185,129,0.4)',
-          animation: 'sonar 2.4s ease-out 0.8s infinite',
-        }} />
-        {/* Ring 3 */}
-        <div style={{
-          position: 'absolute', inset: 0, borderRadius: '50%',
-          border: '1px solid rgba(16,185,129,0.25)',
-          animation: 'sonar 2.4s ease-out 1.6s infinite',
-        }} />
-
-        {/* Center orb */}
-        <div style={{
-          width: 72, height: 72, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(16,185,129,0.3) 0%, rgba(16,185,129,0.1) 60%, transparent 100%)',
-          border: '1px solid rgba(16,185,129,0.5)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 0 30px rgba(16,185,129,0.3), inset 0 0 20px rgba(16,185,129,0.1)',
-          animation: 'pulse-dot 2s ease-in-out infinite',
-        }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.87 9.83 19.79 19.79 0 01.81 1.2 2 2 0 012.8 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="#10B981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-      </div>
-
-      {/* Status text */}
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 8 }}>
-          <div style={{
-            width: 8, height: 8, borderRadius: '50%', background: '#10B981',
-            animation: 'pulse-dot 1.5s ease-in-out infinite',
-          }} />
-          <span className="font-display" style={{ fontSize: 18, fontWeight: 700, color: '#10B981' }}>
-            Call Active
-          </span>
-        </div>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>
-          Connected to {phoneNumber}
-        </p>
-        <p style={{ fontSize: 12, color: 'var(--text-subtle)', fontVariantNumeric: 'tabular-nums' }}>
-          {mm}:{ss} elapsed · polling every 5s
-        </p>
-      </div>
-
-      {/* Progress bar */}
+    <div className="card animate-fade" style={{ padding: '40px 24px', textAlign: 'center' }}>
+      {/* Ping indicator */}
       <div style={{
-        width: '100%', maxWidth: 240, height: 2,
-        background: 'rgba(255,255,255,0.06)',
-        borderRadius: 1, overflow: 'hidden',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        position: 'relative', width: 56, height: 56, marginBottom: 24,
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0, borderRadius: '50%',
+          background: 'rgba(45,212,160,0.15)',
+          animation: 'ping 1.5s cubic-bezier(0,0,0.2,1) infinite',
+        }} />
+        <div style={{
+          width: 16, height: 16, borderRadius: '50%',
+          background: '#2DD4A0',
+          position: 'relative',
+        }} />
+      </div>
+
+      <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>
+        Call in progress
+      </div>
+      <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--text-3)', marginBottom: 4 }}>
+        {phoneNumber}
+      </div>
+      <div style={{
+        fontSize: 24, fontWeight: 700, fontFamily: 'var(--font-mono)',
+        color: 'var(--text)', marginTop: 16,
+        fontVariantNumeric: 'tabular-nums',
+      }}>
+        {mm}:{ss}
+      </div>
+      <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-3)', marginTop: 8 }}>
+        polling every 5s
+      </div>
+
+      {/* Shimmer bar */}
+      <div style={{
+        width: 120, height: 2, margin: '20px auto 0',
+        background: 'var(--border)', borderRadius: 1, overflow: 'hidden',
       }}>
         <div style={{
           height: '100%', width: '40%',
-          background: 'linear-gradient(90deg, #10B981, #7C3AED)',
-          borderRadius: 1,
-          animation: 'shimmer 2s linear infinite',
-          backgroundSize: '200% auto',
+          background: 'linear-gradient(90deg, transparent, #2DD4A0, transparent)',
+          backgroundSize: '200% 100%',
+          animation: 'slide 1.5s linear infinite',
         }} />
       </div>
     </div>
@@ -168,7 +142,7 @@ export default function DemoForm({ agent }: DemoFormProps) {
     }
     if (!phoneNumber.trim()) { setError('Phone number is required'); return false }
     if (!/^\+\d{7,15}$/.test(phoneNumber.trim())) {
-      setError('Must be international format — e.g. +256700000000')
+      setError('International format required — e.g. +256700000000')
       return false
     }
     return true
@@ -180,7 +154,7 @@ export default function DemoForm({ agent }: DemoFormProps) {
       if (Date.now() - startTimeRef.current > MAX_WAIT_MS) {
         clearInterval(pollRef.current!)
         setState('failed')
-        setError('Timed out waiting (5 min). Check agent logs.')
+        setError('Timed out (5 min). Check agent logs.')
         return
       }
       try {
@@ -194,7 +168,7 @@ export default function DemoForm({ agent }: DemoFormProps) {
         } else if (data.status === 'failed') {
           clearInterval(pollRef.current!)
           setState('failed')
-          setError('Call failed — check agent logs in Ultravox console')
+          setError('Call failed — check Ultravox console')
         }
       } catch {}
     }, POLL_INTERVAL)
@@ -224,7 +198,7 @@ export default function DemoForm({ agent }: DemoFormProps) {
       startPolling(data.callId)
     } catch {
       setState('failed')
-      setError('Network error — could not reach server')
+      setError('Network error')
     }
   }
 
@@ -238,84 +212,62 @@ export default function DemoForm({ agent }: DemoFormProps) {
     setOutput(null)
   }
 
-  // --- Completed ---
   if (state === 'completed' && output) {
     return (
-      <div className="animate-fade-in-up" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <ResultsCard output={output} />
-        <button
-          onClick={reset}
-          style={{
-            width: '100%', background: 'var(--surface)', border: '1px solid var(--border)',
-            borderRadius: 10, padding: '12px 20px', fontSize: 14, fontWeight: 500,
-            color: 'var(--text-muted)', cursor: 'pointer', transition: 'all 0.15s',
-          }}
-          onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = 'var(--text)' }}
-          onMouseLeave={e => { (e.target as HTMLButtonElement).style.color = 'var(--text-muted)' }}
-        >
-          ← Start another call
+        <button onClick={reset} className="btn-ghost" style={{ width: '100%' }}>
+          Start another call
         </button>
       </div>
     )
   }
 
-  // --- In progress ---
   if (state === 'in_progress') {
-    return (
-      <div className="glass animate-fade-in" style={{ borderRadius: 20, overflow: 'hidden' }}>
-        <SonarVisual phoneNumber={phoneNumber} />
-      </div>
-    )
+    return <CallActive phoneNumber={phoneNumber} />
   }
 
-  // --- Initiating ---
   if (state === 'initiating') {
     return (
-      <div className="glass animate-fade-in" style={{ borderRadius: 20, padding: '48px 24px', textAlign: 'center' }}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ animation: 'spin-slow 0.8s linear infinite', display: 'inline-block', marginBottom: 16 }}>
-          <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.1)" strokeWidth="2"/>
-          <path d="M12 2a10 10 0 0 1 10 10" stroke="#7C3AED" strokeWidth="2" strokeLinecap="round"/>
+      <div className="card animate-fade" style={{ padding: '48px 24px', textAlign: 'center' }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ animation: 'spin 0.7s linear infinite', display: 'inline-block', marginBottom: 12 }}>
+          <circle cx="12" cy="12" r="10" stroke="var(--border)" strokeWidth="2"/>
+          <path d="M12 2a10 10 0 0 1 10 10" stroke="var(--red)" strokeWidth="2" strokeLinecap="round"/>
         </svg>
-        <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>Initiating call…</p>
+        <p style={{ fontSize: 13, color: 'var(--text-2)' }}>Initiating call...</p>
       </div>
     )
   }
 
-  // --- Idle / Failed form ---
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }} noValidate>
-
-      {/* Error banner */}
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }} noValidate>
       {(state === 'failed' || error) && (
         <div style={{
-          background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)',
-          borderRadius: 10, padding: '12px 16px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+          background: 'var(--red-surface)',
+          border: '1px solid rgba(255,59,59,0.15)',
+          borderRadius: 'var(--radius)', padding: '10px 14px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="#EF4444" strokeWidth="1.5"/>
-              <path d="M12 8v4M12 16h.01" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-            <span style={{ fontSize: 13, color: '#EF4444' }}>{error || 'Call failed'}</span>
-          </div>
+          <span style={{ fontSize: 13, color: 'var(--red)' }}>{error || 'Call failed'}</span>
           {state === 'failed' && (
-            <button type="button" onClick={reset} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: 'var(--text-muted)', textDecoration: 'underline' }}>
+            <button type="button" onClick={reset} style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-3)', textDecoration: 'underline',
+            }}>
               Reset
             </button>
           )}
         </div>
       )}
 
-      {/* Section A: Call context */}
-      <div className="glass" style={{ borderRadius: 16, padding: 24 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 3H8L6 7h12l-2-4z" stroke="var(--primary-light)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--primary-light)' }}>
-            Call Context
-          </span>
+      {/* Context section */}
+      <div className="card" style={{ padding: 20 }}>
+        <div style={{
+          fontSize: 10, fontWeight: 700, fontFamily: 'var(--font-mono)',
+          letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: 'var(--text-3)', marginBottom: 16,
+        }}>
+          Call context
         </div>
         <VariableFormFields
           fields={agent.templateContext}
@@ -324,42 +276,34 @@ export default function DemoForm({ agent }: DemoFormProps) {
         />
       </div>
 
-      {/* Section B: Phone */}
-      <div className="glass" style={{ borderRadius: 16, padding: 24 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.87 9.83 19.79 19.79 0 01.81 1.2 2 2 0 012.8 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--accent)' }}>
-            Destination
-          </span>
+      {/* Phone section */}
+      <div className="card" style={{ padding: 20 }}>
+        <div style={{
+          fontSize: 10, fontWeight: 700, fontFamily: 'var(--font-mono)',
+          letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: 'var(--text-3)', marginBottom: 16,
+        }}>
+          Destination
         </div>
         <div>
-          <label className="vl-label">
-            Phone number <span style={{ color: '#7C3AED', marginLeft: 2 }}>*</span>
+          <label className="field-label">
+            Phone number <span style={{ color: 'var(--red)' }}>*</span>
           </label>
           <input
-            type="tel"
-            value={phoneNumber}
+            type="tel" value={phoneNumber}
             onChange={e => setPhoneNumber(e.target.value)}
-            placeholder="+256700000000"
-            required
-            className="vl-input"
+            placeholder="+256700000000" required
+            className="field-input"
+            style={{ fontFamily: 'var(--font-mono)' }}
           />
-          <p style={{ marginTop: 6, fontSize: 11, color: 'var(--text-subtle)' }}>
-            International format · include country code
+          <p style={{ marginTop: 4, fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--text-3)' }}>
+            International format with country code
           </p>
         </div>
       </div>
 
-      {/* CTA */}
-      <button type="submit" className="vl-btn-primary" style={{ marginTop: 4 }}>
-        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.87 9.83 19.79 19.79 0 01.81 1.2 2 2 0 012.8 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          Start Call
-        </span>
+      <button type="submit" className="btn-primary" style={{ marginTop: 4 }}>
+        Start Call
       </button>
     </form>
   )

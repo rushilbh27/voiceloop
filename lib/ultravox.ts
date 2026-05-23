@@ -80,13 +80,6 @@ export async function createOutboundCall(
     initialOutputMedium: 'MESSAGE_MEDIUM_VOICE',
     recordingEnabled: true,
     templateContext,
-    // Inject saveOutput tool with callId override so webhook routing works
-    selectedTools: [
-      {
-        toolId: VOICELOOP_SAVE_OUTPUT_TOOL_ID,
-        parameterOverrides: { callId: webhookCallId },
-      },
-    ],
   }
 
   const res = await fetch(`${ULTRAVOX_API_BASE}/agents/${agentId}/calls`, {

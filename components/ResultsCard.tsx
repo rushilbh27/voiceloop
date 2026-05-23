@@ -14,38 +14,37 @@ function formatKey(key: string): string {
 
 function RenderValue({ value }: { value: unknown }): React.ReactElement {
   if (value === null || value === undefined) {
-    return <span style={{ color: 'var(--text-subtle)', fontStyle: 'italic' }}>—</span>
+    return <span style={{ color: 'var(--text-3)' }}>—</span>
   }
 
   if (typeof value === 'boolean') {
     return (
       <span style={{
-        display: 'inline-flex', alignItems: 'center', gap: 4,
-        fontSize: 12, fontWeight: 600, padding: '2px 8px', borderRadius: 12,
-        background: value ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)',
-        color: value ? '#10B981' : '#EF4444',
-        border: `1px solid ${value ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`,
+        fontSize: 11, fontWeight: 700, fontFamily: 'var(--font-mono)',
+        padding: '2px 6px', borderRadius: 3,
+        background: value ? 'rgba(45,212,160,0.12)' : 'rgba(255,59,59,0.12)',
+        color: value ? '#2DD4A0' : '#FF3B3B',
       }}>
-        {value ? '✓ Yes' : '✗ No'}
+        {value ? 'YES' : 'NO'}
       </span>
     )
   }
 
   if (Array.isArray(value)) {
-    if (value.length === 0) return <span style={{ color: 'var(--text-subtle)', fontStyle: 'italic' }}>empty</span>
+    if (value.length === 0) return <span style={{ color: 'var(--text-3)' }}>empty</span>
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4 }}>
         {value.map((item, i) => (
           <div key={i} style={{
-            background: 'rgba(255,255,255,0.03)',
+            background: 'var(--surface)',
             border: '1px solid var(--border)',
-            borderRadius: 8, padding: '10px 12px',
+            borderRadius: 6, padding: '8px 10px',
           }}>
             {typeof item === 'object' && item !== null ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                 {Object.entries(item as Record<string, unknown>).map(([k, v]) => (
                   <div key={k} style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
-                    <span style={{ fontSize: 11, color: 'var(--text-subtle)', minWidth: 60 }}>{formatKey(k)}</span>
+                    <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--text-3)', minWidth: 50 }}>{formatKey(k)}</span>
                     <span style={{ fontSize: 13, color: 'var(--text)' }}>{String(v)}</span>
                   </div>
                 ))}
@@ -62,10 +61,10 @@ function RenderValue({ value }: { value: unknown }): React.ReactElement {
   if (typeof value === 'object') {
     const entries = Object.entries(value as Record<string, unknown>)
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         {entries.map(([k, v]) => (
           <div key={k} style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
-            <span style={{ fontSize: 11, color: 'var(--text-subtle)', minWidth: 80 }}>{formatKey(k)}</span>
+            <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--text-3)', minWidth: 60 }}>{formatKey(k)}</span>
             <span style={{ fontSize: 13, color: 'var(--text)' }}><RenderValue value={v} /></span>
           </div>
         ))}
@@ -73,32 +72,34 @@ function RenderValue({ value }: { value: unknown }): React.ReactElement {
     )
   }
 
-  // Status enum coloring
-  const STATUS_COLORS: Record<string, { bg: string; text: string }> = {
-    order_placed:       { bg: 'rgba(16,185,129,0.15)',  text: '#10B981' },
-    completed:          { bg: 'rgba(16,185,129,0.15)',  text: '#10B981' },
-    callback_scheduled: { bg: 'rgba(245,158,11,0.15)',  text: '#F59E0B' },
-    not_interested:     { bg: 'rgba(239,68,68,0.15)',   text: '#EF4444' },
-    needs_followup:     { bg: 'rgba(59,130,246,0.15)',  text: '#60A5FA' },
-    wrong_number:       { bg: 'rgba(239,68,68,0.15)',   text: '#EF4444' },
-    busy:               { bg: 'rgba(245,158,11,0.15)',  text: '#F59E0B' },
+  const STATUS_COLORS: Record<string, string> = {
+    order_placed: '#2DD4A0',
+    completed: '#2DD4A0',
+    callback_scheduled: '#FACC15',
+    not_interested: '#FF3B3B',
+    needs_followup: '#60A5FA',
+    wrong_number: '#FF3B3B',
+    busy: '#FACC15',
   }
+
   const sval = String(value).toLowerCase().replace(/ /g, '_')
   if (STATUS_COLORS[sval]) {
     const c = STATUS_COLORS[sval]
     return (
       <span style={{
-        fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 12,
-        background: c.bg, color: c.text,
-        border: `1px solid ${c.text}30`,
-        textTransform: 'capitalize',
+        fontSize: 11, fontWeight: 700, fontFamily: 'var(--font-mono)',
+        padding: '2px 8px', borderRadius: 3,
+        background: `${c}1A`,
+        color: c,
+        textTransform: 'uppercase',
+        letterSpacing: '0.04em',
       }}>
         {String(value).replace(/_/g, ' ')}
       </span>
     )
   }
 
-  return <span style={{ fontSize: 14, color: 'var(--text)' }}>{String(value)}</span>
+  return <span style={{ fontSize: 13, color: 'var(--text)' }}>{String(value)}</span>
 }
 
 interface ResultsCardProps {
@@ -109,59 +110,52 @@ export default function ResultsCard({ output }: ResultsCardProps) {
   const entries = Object.entries(output).filter(([k]) => !SKIP_KEYS.has(k))
 
   return (
-    <div className="animate-fade-in-up" style={{
-      border: '1px solid rgba(16,185,129,0.25)',
-      borderRadius: 20,
-      overflow: 'hidden',
-      background: 'rgba(16,185,129,0.04)',
-    }}>
+    <div className="card animate-enter" style={{ overflow: 'hidden' }}>
       {/* Header */}
       <div style={{
-        padding: '20px 24px',
-        borderBottom: '1px solid rgba(16,185,129,0.15)',
-        display: 'flex', alignItems: 'center', gap: 12,
-        background: 'rgba(16,185,129,0.06)',
+        padding: '14px 20px',
+        borderBottom: '1px solid var(--border)',
+        display: 'flex', alignItems: 'center', gap: 10,
+        background: 'rgba(45,212,160,0.04)',
       }}>
         <div style={{
-          width: 36, height: 36, borderRadius: 10,
-          background: 'rgba(16,185,129,0.2)',
-          border: '1px solid rgba(16,185,129,0.3)',
+          width: 28, height: 28, borderRadius: 6,
+          background: 'rgba(45,212,160,0.12)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <polyline points="20 6 9 17 4 12" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <polyline points="20 6 9 17 4 12" stroke="#2DD4A0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
         <div>
-          <h2 className="font-display" style={{ fontSize: 16, fontWeight: 700, color: '#10B981', marginBottom: 2 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: '#2DD4A0' }}>
             Call Complete
-          </h2>
-          <p style={{ fontSize: 12, color: 'rgba(16,185,129,0.7)' }}>
-            Agent output received · {entries.length} data fields
-          </p>
+          </div>
+          <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-3)' }}>
+            {entries.length} fields returned
+          </div>
         </div>
       </div>
 
       {/* Fields */}
-      <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 0 }}>
+      <div style={{ padding: '4px 0' }}>
         {entries.length === 0 ? (
-          <p style={{ fontSize: 13, color: 'var(--text-muted)', fontStyle: 'italic' }}>No output data received.</p>
+          <p style={{ padding: 20, fontSize: 13, color: 'var(--text-3)' }}>No output data.</p>
         ) : (
           entries.map(([key, value], i) => (
             <div key={key} style={{
-              display: 'flex', flexDirection: 'column', gap: 6,
-              padding: '14px 0',
+              padding: '12px 20px',
               borderBottom: i < entries.length - 1 ? '1px solid var(--border)' : 'none',
+              display: 'flex', flexDirection: 'column', gap: 4,
             }}>
               <span style={{
-                fontSize: 10, fontWeight: 600, letterSpacing: '0.1em',
-                textTransform: 'uppercase', color: 'var(--text-subtle)',
+                fontSize: 10, fontWeight: 600, fontFamily: 'var(--font-mono)',
+                letterSpacing: '0.08em', textTransform: 'uppercase',
+                color: 'var(--text-3)',
               }}>
                 {formatKey(key)}
               </span>
-              <div>
-                <RenderValue value={value} />
-              </div>
+              <div><RenderValue value={value} /></div>
             </div>
           ))
         )}
