@@ -31,7 +31,7 @@ export default async function DemoPage({ params }: PageProps) {
     <div className="page">
       <Navbar userEmail={user.email} />
 
-      <main className="container" style={{ maxWidth: 740, padding: '44px 32px 100px' }}>
+      <main className="container" style={{ maxWidth: 740, padding: '88px 32px 100px' }}>
 
         {/* Back */}
         <div className="animate-enter" style={{ marginBottom: 32 }}>

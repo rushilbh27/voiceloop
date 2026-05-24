@@ -37,7 +37,7 @@ export default async function HistoryPage() {
     <div className="page">
       <Navbar userEmail={user.email} />
 
-      <main className="container" style={{ padding: '56px 32px 100px' }}>
+      <main className="container" style={{ padding: '88px 32px 100px' }}>
 
         {/* Header */}
         <div className="animate-enter" style={{ marginBottom: 40 }}>

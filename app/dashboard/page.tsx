@@ -13,7 +13,7 @@ export default async function DashboardPage() {
     <div className="page">
       <Navbar userEmail={user.email} />
 
-      <main className="container" style={{ padding: '56px 32px 100px' }}>
+      <main className="container" style={{ padding: '96px 32px 80px' }}>
 
         {/* Header */}
         <div className="animate-enter" style={{ marginBottom: 48 }}>
@@ -46,7 +46,7 @@ export default async function DashboardPage() {
                 fontSize: 10, color: 'var(--green)',
                 letterSpacing: '0.06em',
               }}>
-                {AGENTS.length} active
+                {AGENTS.filter(a => !a.locked).length} active
               </span>
             </div>
           </div>
@@ -60,6 +60,7 @@ export default async function DashboardPage() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
           gap: 16,
+          alignItems: 'stretch',
         }}>
           {AGENTS.map((agent, i) => (
             <AgentCard key={agent.slug} agent={agent} index={i} />

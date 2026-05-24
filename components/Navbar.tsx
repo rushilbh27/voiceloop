@@ -26,15 +26,18 @@ export default function Navbar({ userEmail }: NavbarProps) {
 
   return (
     <nav style={{
-      position: 'sticky', top: 0, zIndex: 50,
-      background: 'rgba(6,6,8,0.85)',
-      backdropFilter: 'blur(16px)',
-      WebkitBackdropFilter: 'blur(16px)',
-      borderBottom: '1px solid var(--border)',
+      position: 'fixed', top: 12, zIndex: 50,
+      left: '50%', transform: 'translateX(-50%)',
+      width: 'calc(100% - 48px)', maxWidth: 1160,
+      background: 'rgba(8,9,14,0.88)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      border: '1px solid var(--border)',
+      borderRadius: 12,
     }}>
       <div style={{
-        maxWidth: 1160, margin: '0 auto', padding: '0 32px',
-        height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 20px',
+        height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         {/* Left: brand + nav */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>

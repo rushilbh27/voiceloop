@@ -28,6 +28,9 @@ export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
         position: 'relative',
         overflow: 'hidden',
         opacity: 0,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         animation: `enter 0.4s cubic-bezier(0.22,1,0.36,1) ${delay} forwards`,
         ...(locked ? { cursor: 'default' } : {}),
       }}
@@ -87,6 +90,7 @@ export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
         fontSize: 13,
         color: locked ? '#3E4260' : 'var(--text-2)',
         lineHeight: 1.55,
+        flex: 1,
         marginBottom: locked ? 14 : 0,
       }}>
         {agent.description}
@@ -96,6 +100,7 @@ export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
       {locked && (
         <span style={{
           display: 'inline-block',
+          alignSelf: 'flex-start',
           fontFamily: 'var(--font-mono)',
           fontSize: 9, fontWeight: 700,
           letterSpacing: '0.1em',
