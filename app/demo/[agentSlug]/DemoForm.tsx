@@ -21,7 +21,7 @@ function VariableFormFields({
   onChange: (v: Record<string, string>) => void
 }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {fields.map(field => (
         <div key={field.key}>
           <label className="field-label">
@@ -69,38 +69,53 @@ function CallActive({ phoneNumber }: { phoneNumber: string }) {
   const ss = String(elapsed % 60).padStart(2, '0')
 
   return (
-    <div className="card animate-fade" style={{ padding: '40px 24px', textAlign: 'center' }}>
-      {/* Ping indicator */}
+    <div className="card animate-fade" style={{ padding: '48px 24px', textAlign: 'center' }}>
+      {/* Pulse indicator */}
       <div style={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        position: 'relative', width: 56, height: 56, marginBottom: 24,
+        position: 'relative', width: 64, height: 64, marginBottom: 24,
       }}>
         <div style={{
           position: 'absolute', inset: 0, borderRadius: '50%',
-          background: 'rgba(45,212,160,0.15)',
-          animation: 'ping 1.5s cubic-bezier(0,0,0.2,1) infinite',
+          background: 'rgba(45,212,160,0.12)',
+          animation: 'ping 1.6s cubic-bezier(0,0,0.2,1) infinite',
         }} />
         <div style={{
-          width: 16, height: 16, borderRadius: '50%',
+          width: 18, height: 18, borderRadius: '50%',
           background: '#2DD4A0',
+          boxShadow: '0 0 16px rgba(45,212,160,0.6)',
           position: 'relative',
         }} />
       </div>
 
-      <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>
+      <div style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 17, fontWeight: 800,
+        color: 'var(--text)', marginBottom: 4,
+        letterSpacing: '-0.02em',
+      }}>
         Call in progress
       </div>
-      <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--text-3)', marginBottom: 4 }}>
+      <div style={{
+        fontSize: 12, fontFamily: 'var(--font-mono)',
+        color: 'var(--text-3)', marginBottom: 6,
+      }}>
         {phoneNumber}
       </div>
       <div style={{
-        fontSize: 24, fontWeight: 700, fontFamily: 'var(--font-mono)',
-        color: 'var(--text)', marginTop: 16,
+        fontSize: 28, fontWeight: 800,
+        fontFamily: 'var(--font-display)',
+        letterSpacing: '-0.03em',
+        color: 'var(--text)', marginTop: 20,
         fontVariantNumeric: 'tabular-nums',
       }}>
         {mm}:{ss}
       </div>
-      <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-3)', marginTop: 8 }}>
+      <div style={{
+        fontSize: 10, fontFamily: 'var(--font-mono)',
+        color: 'var(--text-3)', marginTop: 6,
+        letterSpacing: '0.06em',
+      }}>
         polling every 5s
       </div>
 
@@ -229,30 +244,53 @@ export default function DemoForm({ agent }: DemoFormProps) {
 
   if (state === 'initiating') {
     return (
-      <div className="card animate-fade" style={{ padding: '48px 24px', textAlign: 'center' }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ animation: 'spin 0.7s linear infinite', display: 'inline-block', marginBottom: 12 }}>
+      <div className="card animate-fade" style={{ padding: '56px 24px', textAlign: 'center' }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{
+          animation: 'spin 0.7s linear infinite',
+          display: 'inline-block', marginBottom: 14,
+        }}>
           <circle cx="12" cy="12" r="10" stroke="var(--border)" strokeWidth="2"/>
           <path d="M12 2a10 10 0 0 1 10 10" stroke="var(--red)" strokeWidth="2" strokeLinecap="round"/>
         </svg>
-        <p style={{ fontSize: 13, color: 'var(--text-2)' }}>Initiating call...</p>
+        <p style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 14, fontWeight: 700,
+          color: 'var(--text-2)',
+          letterSpacing: '-0.01em',
+        }}>
+          Initiating call...
+        </p>
       </div>
     )
   }
 
+  /* Section label style */
+  const sectionLabel: React.CSSProperties = {
+    fontFamily: 'var(--font-mono)',
+    fontSize: 10,
+    fontWeight: 700,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: 'var(--text-3)',
+    marginBottom: 18,
+  }
+
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }} noValidate>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }} noValidate>
+      {/* Error banner */}
       {(state === 'failed' || error) && (
         <div style={{
           background: 'var(--red-surface)',
-          border: '1px solid rgba(255,59,59,0.15)',
-          borderRadius: 'var(--radius)', padding: '10px 14px',
+          border: '1px solid rgba(255,59,59,0.18)',
+          borderRadius: 10, padding: '10px 16px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <span style={{ fontSize: 13, color: 'var(--red)' }}>{error || 'Call failed'}</span>
           {state === 'failed' && (
             <button type="button" onClick={reset} style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-3)', textDecoration: 'underline',
+              fontSize: 11, fontFamily: 'var(--font-mono)',
+              color: 'var(--text-3)', textDecoration: 'underline',
             }}>
               Reset
             </button>
@@ -260,15 +298,9 @@ export default function DemoForm({ agent }: DemoFormProps) {
         </div>
       )}
 
-      {/* Context section */}
-      <div className="card" style={{ padding: 20 }}>
-        <div style={{
-          fontSize: 10, fontWeight: 700, fontFamily: 'var(--font-mono)',
-          letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: 'var(--text-3)', marginBottom: 16,
-        }}>
-          Call context
-        </div>
+      {/* Call context section */}
+      <div className="card" style={{ padding: 24 }}>
+        <p style={sectionLabel}>Call context</p>
         <VariableFormFields
           fields={agent.templateContext}
           values={formValues}
@@ -276,34 +308,36 @@ export default function DemoForm({ agent }: DemoFormProps) {
         />
       </div>
 
-      {/* Phone section */}
-      <div className="card" style={{ padding: 20 }}>
-        <div style={{
-          fontSize: 10, fontWeight: 700, fontFamily: 'var(--font-mono)',
-          letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: 'var(--text-3)', marginBottom: 16,
-        }}>
-          Destination
-        </div>
+      {/* Destination section */}
+      <div className="card" style={{ padding: 24 }}>
+        <p style={sectionLabel}>Destination</p>
         <div>
           <label className="field-label">
             Phone number <span style={{ color: 'var(--red)' }}>*</span>
           </label>
           <input
-            type="tel" value={phoneNumber}
+            type="tel"
+            value={phoneNumber}
             onChange={e => setPhoneNumber(e.target.value)}
-            placeholder="+256700000000" required
+            placeholder="+256700000000"
+            required
             className="field-input"
             style={{ fontFamily: 'var(--font-mono)' }}
           />
-          <p style={{ marginTop: 4, fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--text-3)' }}>
+          <p style={{
+            marginTop: 6,
+            fontSize: 11,
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--text-3)',
+            letterSpacing: '0.02em',
+          }}>
             International format with country code
           </p>
         </div>
       </div>
 
       <button type="submit" className="btn-primary" style={{ marginTop: 4 }}>
-        Start Call
+        Start Call →
       </button>
     </form>
   )

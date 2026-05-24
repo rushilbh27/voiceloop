@@ -128,7 +128,7 @@ export default function ResultsCard({ output }: ResultsCardProps) {
           </svg>
         </div>
         <div>
-          <div style={{ fontSize: 14, fontWeight: 700, color: '#2DD4A0' }}>
+          <div style={{ fontSize: 15, fontWeight: 800, fontFamily: 'var(--font-display)', color: '#2DD4A0', letterSpacing: '-0.01em' }}>
             Call Complete
           </div>
           <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-3)' }}>

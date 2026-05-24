@@ -27,69 +27,164 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="page" style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      minHeight: '100vh', padding: 24,
-    }}>
-      {/* Subtle corner accent */}
-      <div style={{
-        position: 'fixed', top: 0, left: 0,
-        width: 200, height: 200,
-        background: 'radial-gradient(circle at 0% 0%, rgba(255,59,59,0.06) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
+    <div className="login-grid">
 
-      <div className="animate-enter" style={{ width: '100%', maxWidth: 360 }}>
-        {/* Header */}
-        <div style={{ marginBottom: 32 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-            <div style={{
-              width: 32, height: 32, borderRadius: 7,
-              background: 'var(--red)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.87 9.83 19.79 19.79 0 01.81 1.2 2 2 0 012.8 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.02em' }}>
-              VoiceLoop
-            </span>
+      {/* ── LEFT: Brand column ── */}
+      <div className="login-brand-col animate-enter-left" style={{
+        padding: '52px 64px',
+        borderRight: '1px solid var(--border)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        minHeight: '100vh',
+      }}>
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{
+            width: 30, height: 30, borderRadius: 7,
+            background: 'var(--red)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.87 9.83 19.79 19.79 0 01.81 1.2 2 2 0 012.8 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
-          <p style={{ fontSize: 13, color: 'var(--text-3)' }}>Sign in to access the demo portal</p>
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 16, fontWeight: 700,
+            color: 'var(--text)', letterSpacing: '-0.01em',
+          }}>
+            VoiceLoop
+          </span>
         </div>
 
-        {/* Form card */}
-        <div className="card" style={{ padding: 24 }}>
+        {/* Hero statement */}
+        <div>
+          <p style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10, color: 'var(--red)',
+            letterSpacing: '0.18em', textTransform: 'uppercase',
+            marginBottom: 28,
+          }}>
+            AI Voice Platform
+          </p>
+          <h1 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(52px, 5.5vw, 76px)',
+            fontWeight: 800,
+            lineHeight: 0.95,
+            letterSpacing: '-0.035em',
+            color: 'var(--text)',
+            marginBottom: 28,
+          }}>
+            AI voice<br />
+            agents.<br />
+            <span style={{ color: 'var(--red)' }}>On demand.</span>
+          </h1>
+          <p style={{
+            fontSize: 15, color: 'var(--text-2)',
+            lineHeight: 1.7, maxWidth: 340,
+          }}>
+            Deploy intelligent agents that call, qualify, and record — instantly.
+          </p>
+        </div>
+
+        {/* Feature list */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {[
+            'Outbound sales & follow-ups',
+            'Collections & payment reminders',
+            'Real-time AI conversation',
+          ].map(f => (
+            <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{
+                width: 6, height: 6, borderRadius: '50%',
+                background: 'var(--red)',
+                boxShadow: '0 0 8px rgba(255,59,59,0.7)',
+                flexShrink: 0,
+                animation: 'breathe 3s ease-in-out infinite',
+              }} />
+              <span style={{
+                fontSize: 12,
+                color: 'var(--text-3)',
+                fontFamily: 'var(--font-mono)',
+              }}>
+                {f}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── RIGHT: Form column ── */}
+      <div className="animate-enter" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '52px 48px',
+        minHeight: '100vh',
+      }}>
+        <div style={{ width: '100%', maxWidth: 380 }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 34, fontWeight: 800,
+            letterSpacing: '-0.03em',
+            color: 'var(--text)',
+            marginBottom: 6,
+          }}>
+            Sign in
+          </h2>
+          <p style={{
+            fontSize: 14, color: 'var(--text-2)',
+            marginBottom: 36, lineHeight: 1.5,
+          }}>
+            Enter your credentials to continue
+          </p>
+
           {error && (
             <div style={{
               background: 'var(--red-surface)',
               border: '1px solid rgba(255,59,59,0.2)',
-              borderRadius: 6, padding: '8px 12px', marginBottom: 16,
+              borderRadius: 8,
+              padding: '10px 14px', marginBottom: 20,
               fontSize: 13, color: 'var(--red)',
             }}>
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <div>
               <label className="field-label">Email</label>
               <input
-                type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder="you@company.com" required autoFocus
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@company.com"
+                required
+                autoFocus
                 className="field-input"
               />
             </div>
             <div>
               <label className="field-label">Password</label>
               <input
-                type="password" value={password} onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••" required
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
                 className="field-input"
               />
             </div>
-            <button type="submit" disabled={loading} className="btn-primary" style={{ marginTop: 4 }}>
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary"
+              style={{ marginTop: 4 }}
+            >
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" style={{ animation: 'spin 0.7s linear infinite' }}>
@@ -98,15 +193,21 @@ export default function LoginPage() {
                   </svg>
                   Signing in
                 </span>
-              ) : 'Sign in'}
+              ) : 'Sign in →'}
             </button>
           </form>
-        </div>
 
-        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 11, color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>
-          Authorized access only
-        </p>
+          <p style={{
+            marginTop: 32, fontSize: 11,
+            color: 'var(--text-3)',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.06em',
+          }}>
+            Authorized access only
+          </p>
+        </div>
       </div>
+
     </div>
   )
 }

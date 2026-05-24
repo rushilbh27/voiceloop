@@ -3,11 +3,11 @@
 import Link from 'next/link'
 import { AgentConfig } from '@/config/agents'
 
-const TAG_STYLE: Record<string, { bg: string; color: string }> = {
-  Sales:       { bg: 'rgba(255,59,59,0.12)',   color: '#FF3B3B' },
-  Collections: { bg: 'rgba(250,204,21,0.12)',  color: '#FACC15' },
-  Outbound:    { bg: 'rgba(45,212,160,0.12)',  color: '#2DD4A0' },
-  Inbound:     { bg: 'rgba(96,165,250,0.12)',  color: '#60A5FA' },
+const TAG_STYLE: Record<string, { color: string; bg: string }> = {
+  Sales:       { color: '#FF3B3B', bg: 'rgba(255,59,59,0.1)' },
+  Collections: { color: '#FACC15', bg: 'rgba(250,204,21,0.1)' },
+  Outbound:    { color: '#2DD4A0', bg: 'rgba(45,212,160,0.1)' },
+  Inbound:     { color: '#60A5FA', bg: 'rgba(96,165,250,0.1)' },
 }
 
 interface AgentCardProps {
@@ -16,44 +16,70 @@ interface AgentCardProps {
 }
 
 export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
-  const tag = TAG_STYLE[agent.tag] ?? { bg: 'rgba(255,255,255,0.06)', color: '#A0A4B0' }
+  const tag = TAG_STYLE[agent.tag] ?? { color: '#888CA8', bg: 'rgba(136,140,168,0.1)' }
 
   return (
     <Link href={`/demo/${agent.slug}`} style={{ textDecoration: 'none' }}>
       <div
         className="card card-hover"
         style={{
-          padding: '20px 20px 16px',
+          padding: '24px',
           opacity: 0,
-          animation: `enter 0.35s ease ${index * 0.06 + 0.1}s forwards`,
+          animation: `enter 0.4s cubic-bezier(0.22,1,0.36,1) ${index * 0.07 + 0.08}s forwards`,
           position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        {/* Red left accent bar */}
+        {/* Subtle top accent line */}
         <div style={{
-          position: 'absolute', top: 12, left: 0, bottom: 12,
-          width: 3, borderRadius: '0 2px 2px 0',
-          background: tag.color,
-          opacity: 0.6,
+          position: 'absolute',
+          top: 0, left: 24, right: 24,
+          height: 1,
+          background: `linear-gradient(90deg, transparent, ${tag.color}40, transparent)`,
         }} />
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-          <span className="tag" style={{ background: tag.bg, color: tag.color }}>
+        {/* Top row: tag + arrow */}
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: 16,
+        }}>
+          <span className="tag" style={{
+            background: tag.bg,
+            color: tag.color,
+            border: `1px solid ${tag.color}28`,
+          }}>
             {agent.tag}
           </span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.3 }}>
-            <path d="M7 17L17 7M17 7H7M17 7v10" stroke="var(--text-2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          <div style={{
+            width: 28, height: 28, borderRadius: 6,
+            background: 'rgba(255,255,255,0.04)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17L17 7M17 7H7M17 7v10" stroke="var(--text-2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
         </div>
 
+        {/* Name */}
         <h3 style={{
-          fontSize: 16, fontWeight: 700, color: 'var(--text)',
-          marginBottom: 4, letterSpacing: '-0.01em',
+          fontFamily: 'var(--font-display)',
+          fontSize: 18, fontWeight: 700,
+          color: 'var(--text)',
+          letterSpacing: '-0.02em',
+          marginBottom: 6,
+          lineHeight: 1.2,
         }}>
           {agent.name}
         </h3>
 
-        <p style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>
+        {/* Description */}
+        <p style={{
+          fontSize: 13,
+          color: 'var(--text-2)',
+          lineHeight: 1.55,
+        }}>
           {agent.description}
         </p>
       </div>
