@@ -47,9 +47,9 @@ export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
         justifyContent: 'space-between', marginBottom: 16,
       }}>
         <span className="tag" style={{
-          background: locked ? 'rgba(255,255,255,0.03)' : tag.bg,
-          color: locked ? 'var(--text-3)' : tag.color,
-          border: locked ? '1px solid rgba(255,255,255,0.05)' : `1px solid ${tag.color}28`,
+          background: locked ? 'rgba(255,255,255,0.05)' : tag.bg,
+          color: locked ? '#505470' : tag.color,
+          border: locked ? '1px solid rgba(255,255,255,0.08)' : `1px solid ${tag.color}28`,
         }}>
           {agent.tag}
         </span>
@@ -75,7 +75,7 @@ export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
       <h3 style={{
         fontFamily: 'var(--font-display)',
         fontSize: 18, fontWeight: 700,
-        color: locked ? 'var(--text-3)' : 'var(--text)',
+        color: locked ? '#484C66' : 'var(--text)',
         letterSpacing: '-0.02em',
         marginBottom: 6, lineHeight: 1.2,
       }}>
@@ -85,7 +85,7 @@ export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
       {/* Description */}
       <p style={{
         fontSize: 13,
-        color: locked ? 'var(--text-3)' : 'var(--text-2)',
+        color: locked ? '#3E4260' : 'var(--text-2)',
         lineHeight: 1.55,
         marginBottom: locked ? 14 : 0,
       }}>
@@ -99,9 +99,9 @@ export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
           fontFamily: 'var(--font-mono)',
           fontSize: 9, fontWeight: 700,
           letterSpacing: '0.1em',
-          color: 'var(--text-3)',
+          color: '#505470',
           background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.07)',
+          border: '1px solid rgba(255,255,255,0.09)',
           borderRadius: 4, padding: '3px 8px',
         }}>
           NOT IN DEMO

@@ -3,18 +3,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  --bg: #060608;
-  --bg-raised: #0D0F17;
-  --bg-card: #0D0F17;
-  --surface: #131621;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(255, 255, 255, 0.14);
-  --border-red: rgba(255, 59, 59, 0.3);
+  --bg: #08090E;
+  --bg-raised: #0E1018;
+  --bg-card: #101318;
+  --surface: #161922;
+  --border: rgba(255, 255, 255, 0.11);
+  --border-hover: rgba(255, 255, 255, 0.22);
+  --border-red: rgba(255, 59, 59, 0.35);
 
   --red: #FF3B3B;
   --red-dim: #CC2F2F;
   --red-glow: rgba(255, 59, 59, 0.18);
-  --red-surface: rgba(255, 59, 59, 0.08);
+  --red-surface: rgba(255, 59, 59, 0.09);
 
   --green: #2DD4A0;
   --green-dim: rgba(45, 212, 160, 0.1);
@@ -22,9 +22,9 @@
   --yellow-dim: rgba(250, 204, 21, 0.1);
   --blue: #60A5FA;
 
-  --text: #F0F1F5;
-  --text-2: #888CA8;
-  --text-3: #3E4257;
+  --text: #ECEEF5;
+  --text-2: #9094B0;
+  --text-3: #606480;
 
   --font-display: 'Syne', sans-serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
@@ -132,6 +132,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .card-hover {
@@ -148,37 +149,38 @@ body {
 
 .field-label {
   display: block;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.09em;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-3);
+  color: #7A7FA0;
   margin-bottom: 7px;
   font-family: var(--font-mono);
 }
 
 .field-input {
   width: 100%;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.13);
   border-radius: var(--radius);
   padding: 11px 14px;
   font-size: 14px;
   font-family: var(--font-sans);
   color: var(--text);
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
 .field-input::placeholder { color: var(--text-3); }
 .field-input:focus {
-  border-color: rgba(255,59,59,0.5);
-  box-shadow: 0 0 0 3px rgba(255,59,59,0.08);
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,59,59,0.55);
+  box-shadow: 0 0 0 3px rgba(255,59,59,0.1);
 }
 
 .field-select {
   appearance: none;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233E4257' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23606480' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 36px;

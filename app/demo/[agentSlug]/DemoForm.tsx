@@ -298,7 +298,7 @@ export default function DemoForm({ agent }: DemoFormProps) {
     fontWeight: 700,
     letterSpacing: '0.12em',
     textTransform: 'uppercase',
-    color: 'var(--text-3)',
+    color: '#7A7FA0',
     marginBottom: 18,
   }
 
