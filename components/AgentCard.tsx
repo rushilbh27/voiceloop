@@ -17,72 +17,104 @@ interface AgentCardProps {
 
 export default function AgentCard({ agent, index = 0 }: AgentCardProps) {
   const tag = TAG_STYLE[agent.tag] ?? { color: '#888CA8', bg: 'rgba(136,140,168,0.1)' }
+  const locked = agent.locked === true
+  const delay = `${index * 0.07 + 0.08}s`
 
-  return (
-    <Link href={`/demo/${agent.slug}`} style={{ textDecoration: 'none' }}>
-      <div
-        className="card card-hover"
-        style={{
-          padding: '24px',
-          opacity: 0,
-          animation: `enter 0.4s cubic-bezier(0.22,1,0.36,1) ${index * 0.07 + 0.08}s forwards`,
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Subtle top accent line */}
-        <div style={{
-          position: 'absolute',
-          top: 0, left: 24, right: 24,
-          height: 1,
-          background: `linear-gradient(90deg, transparent, ${tag.color}40, transparent)`,
-        }} />
+  const card = (
+    <div
+      className={locked ? 'card' : 'card card-hover'}
+      style={{
+        padding: '24px',
+        position: 'relative',
+        overflow: 'hidden',
+        opacity: 0,
+        animation: `enter 0.4s cubic-bezier(0.22,1,0.36,1) ${delay} forwards`,
+        ...(locked ? { cursor: 'default' } : {}),
+      }}
+    >
+      {/* Top accent line */}
+      <div style={{
+        position: 'absolute',
+        top: 0, left: 24, right: 24, height: 1,
+        background: locked
+          ? 'rgba(255,255,255,0.03)'
+          : `linear-gradient(90deg, transparent, ${tag.color}40, transparent)`,
+      }} />
 
-        {/* Top row: tag + arrow */}
-        <div style={{
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: 16,
+      {/* Tag + icon row */}
+      <div style={{
+        display: 'flex', alignItems: 'center',
+        justifyContent: 'space-between', marginBottom: 16,
+      }}>
+        <span className="tag" style={{
+          background: locked ? 'rgba(255,255,255,0.03)' : tag.bg,
+          color: locked ? 'var(--text-3)' : tag.color,
+          border: locked ? '1px solid rgba(255,255,255,0.05)' : `1px solid ${tag.color}28`,
         }}>
-          <span className="tag" style={{
-            background: tag.bg,
-            color: tag.color,
-            border: `1px solid ${tag.color}28`,
-          }}>
-            {agent.tag}
-          </span>
-          <div style={{
-            width: 28, height: 28, borderRadius: 6,
-            background: 'rgba(255,255,255,0.04)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
+          {agent.tag}
+        </span>
+        <div style={{
+          width: 28, height: 28, borderRadius: 6,
+          background: 'rgba(255,255,255,0.04)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          {locked ? (
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="11" width="18" height="11" rx="2" stroke="var(--text-3)" strokeWidth="1.5"/>
+              <path d="M7 11V7a5 5 0 0110 0v4" stroke="var(--text-3)" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          ) : (
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
               <path d="M7 17L17 7M17 7H7M17 7v10" stroke="var(--text-2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </div>
+          )}
         </div>
-
-        {/* Name */}
-        <h3 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 18, fontWeight: 700,
-          color: 'var(--text)',
-          letterSpacing: '-0.02em',
-          marginBottom: 6,
-          lineHeight: 1.2,
-        }}>
-          {agent.name}
-        </h3>
-
-        {/* Description */}
-        <p style={{
-          fontSize: 13,
-          color: 'var(--text-2)',
-          lineHeight: 1.55,
-        }}>
-          {agent.description}
-        </p>
       </div>
+
+      {/* Name */}
+      <h3 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 18, fontWeight: 700,
+        color: locked ? 'var(--text-3)' : 'var(--text)',
+        letterSpacing: '-0.02em',
+        marginBottom: 6, lineHeight: 1.2,
+      }}>
+        {agent.name}
+      </h3>
+
+      {/* Description */}
+      <p style={{
+        fontSize: 13,
+        color: locked ? 'var(--text-3)' : 'var(--text-2)',
+        lineHeight: 1.55,
+        marginBottom: locked ? 14 : 0,
+      }}>
+        {agent.description}
+      </p>
+
+      {/* Not in demo badge */}
+      {locked && (
+        <span style={{
+          display: 'inline-block',
+          fontFamily: 'var(--font-mono)',
+          fontSize: 9, fontWeight: 700,
+          letterSpacing: '0.1em',
+          color: 'var(--text-3)',
+          background: 'rgba(255,255,255,0.04)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          borderRadius: 4, padding: '3px 8px',
+        }}>
+          NOT IN DEMO
+        </span>
+      )}
+    </div>
+  )
+
+  if (locked) return card
+
+  return (
+    <Link href={`/demo/${agent.slug}`} style={{ textDecoration: 'none' }}>
+      {card}
     </Link>
   )
 }

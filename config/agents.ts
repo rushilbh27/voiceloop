@@ -18,6 +18,8 @@ export interface AgentConfig {
   staticContext?: Record<string, string>
   /** Override SIP from name for this agent */
   sipFrom?: string
+  /** Locked — not available in current demo session */
+  locked?: boolean
 }
 
 export const AGENTS: AgentConfig[] = [
@@ -27,6 +29,7 @@ export const AGENTS: AgentConfig[] = [
     agentId: '65ae3d7d-5a1f-4880-89f4-1ce690efae89',
     description: 'Outbound sales agent for property/product demos',
     tag: 'Sales',
+    locked: true,
     templateContext: [
       {
         key: 'customerName',
@@ -100,6 +103,7 @@ export const AGENTS: AgentConfig[] = [
     agentId: 'YOUR_AGENT_ID_HERE',
     description: 'Follows up on outstanding payments politely but firmly',
     tag: 'Collections',
+    locked: true,
     templateContext: [
       {
         key: 'debtorName',

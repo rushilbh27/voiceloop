@@ -23,7 +23,7 @@ export default async function DemoPage({ params }: PageProps) {
   if (!user) redirect('/login')
 
   const agent = getAgentBySlug(agentSlug)
-  if (!agent) notFound()
+  if (!agent || agent.locked) notFound()
 
   const accent = TAG_COLORS[agent.tag] ?? '#FF3B3B'
 

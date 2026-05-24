@@ -67,35 +67,35 @@ export default function LoginPage() {
             letterSpacing: '0.18em', textTransform: 'uppercase',
             marginBottom: 28,
           }}>
-            AI Voice Platform
+            Pingdrip — Internal Demo
           </p>
           <h1 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(52px, 5.5vw, 76px)',
+            fontSize: 'clamp(42px, 4.5vw, 64px)',
             fontWeight: 800,
             lineHeight: 0.95,
             letterSpacing: '-0.035em',
             color: 'var(--text)',
             marginBottom: 28,
           }}>
-            AI voice<br />
-            agents.<br />
-            <span style={{ color: 'var(--red)' }}>On demand.</span>
+            AI agent<br />
+            testing<br />
+            <span style={{ color: 'var(--red)' }}>environment.</span>
           </h1>
           <p style={{
             fontSize: 15, color: 'var(--text-2)',
             lineHeight: 1.7, maxWidth: 340,
           }}>
-            Deploy intelligent agents that call, qualify, and record — instantly.
+            Internal sandbox for testing live AI voice agents before production deployment.
           </p>
         </div>
 
         {/* Feature list */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {[
-            'Outbound sales & follow-ups',
-            'Collections & payment reminders',
-            'Real-time AI conversation',
+            'Live outbound call testing',
+            'Real call recordings & transcripts',
+            'Structured output capture',
           ].map(f => (
             <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{
@@ -140,7 +140,7 @@ export default function LoginPage() {
             fontSize: 14, color: 'var(--text-2)',
             marginBottom: 36, lineHeight: 1.5,
           }}>
-            Enter your credentials to continue
+            Sign in to access the Pingdrip demo portal
           </p>
 
           {error && (
