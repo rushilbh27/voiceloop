@@ -13,6 +13,60 @@ interface DemoFormProps {
   agent: AgentConfig
 }
 
+// Keys that belong to "agent / company" section — rendered in first card
+const AGENT_KEYS = new Set(['agent_name', 'company_name', 'company_short_name', 'product_or_service', 'context'])
+
+function FieldItem({
+  field,
+  values,
+  onChange,
+}: {
+  field: AgentConfig['templateContext'][number]
+  values: Record<string, string>
+  onChange: (v: Record<string, string>) => void
+}) {
+  return (
+    <div key={field.key}>
+      <label className="field-label">
+        {field.label}
+        {field.required && <span style={{ color: 'var(--red)', marginLeft: 3 }}>*</span>}
+      </label>
+      {field.type === 'select' && field.options ? (
+        <select
+          value={values[field.key] ?? ''}
+          onChange={e => onChange({ ...values, [field.key]: e.target.value })}
+          required={field.required}
+          className="field-input field-select"
+        >
+          <option value="" disabled>{field.placeholder}</option>
+          {field.options.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      ) : field.type === 'textarea' ? (
+        <textarea
+          value={values[field.key] ?? ''}
+          onChange={e => onChange({ ...values, [field.key]: e.target.value })}
+          placeholder={field.placeholder}
+          required={field.required}
+          rows={6}
+          className="field-input"
+          style={{ resize: 'vertical', lineHeight: 1.55, fontFamily: 'var(--font-mono)', fontSize: 12 }}
+        />
+      ) : (
+        <input
+          type={field.type === 'number' ? 'number' : 'text'}
+          value={values[field.key] ?? ''}
+          onChange={e => onChange({ ...values, [field.key]: e.target.value })}
+          placeholder={field.placeholder}
+          required={field.required}
+          className="field-input"
+        />
+      )}
+    </div>
+  )
+}
+
 function VariableFormFields({
   fields, values, onChange,
 }: {
@@ -23,34 +77,7 @@ function VariableFormFields({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {fields.map(field => (
-        <div key={field.key}>
-          <label className="field-label">
-            {field.label}
-            {field.required && <span style={{ color: 'var(--red)', marginLeft: 3 }}>*</span>}
-          </label>
-          {field.type === 'select' && field.options ? (
-            <select
-              value={values[field.key] ?? ''}
-              onChange={e => onChange({ ...values, [field.key]: e.target.value })}
-              required={field.required}
-              className="field-input field-select"
-            >
-              <option value="" disabled>{field.placeholder}</option>
-              {field.options.map(opt => (
-                <option key={opt} value={opt}>{opt}</option>
-              ))}
-            </select>
-          ) : (
-            <input
-              type={field.type === 'number' ? 'number' : 'text'}
-              value={values[field.key] ?? ''}
-              onChange={e => onChange({ ...values, [field.key]: e.target.value })}
-              placeholder={field.placeholder}
-              required={field.required}
-              className="field-input"
-            />
-          )}
-        </div>
+        <FieldItem key={field.key} field={field} values={values} onChange={onChange} />
       ))}
     </div>
   )
@@ -298,15 +325,45 @@ export default function DemoForm({ agent }: DemoFormProps) {
         </div>
       )}
 
-      {/* Call context section */}
-      <div className="card" style={{ padding: 24 }}>
-        <p style={sectionLabel}>Call context</p>
-        <VariableFormFields
-          fields={agent.templateContext}
-          values={formValues}
-          onChange={setFormValues}
-        />
-      </div>
+      {/* Split into agent config + customer sections when both exist */}
+      {(() => {
+        const agentFields = agent.templateContext.filter(f => AGENT_KEYS.has(f.key))
+        const customerFields = agent.templateContext.filter(f => !AGENT_KEYS.has(f.key))
+
+        if (agentFields.length > 0 && customerFields.length > 0) {
+          return (
+            <>
+              <div className="card" style={{ padding: 24 }}>
+                <p style={sectionLabel}>Agent & Company</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {agentFields.map(f => (
+                    <FieldItem key={f.key} field={f} values={formValues} onChange={setFormValues} />
+                  ))}
+                </div>
+              </div>
+              <div className="card" style={{ padding: 24 }}>
+                <p style={sectionLabel}>Customer Details</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {customerFields.map(f => (
+                    <FieldItem key={f.key} field={f} values={formValues} onChange={setFormValues} />
+                  ))}
+                </div>
+              </div>
+            </>
+          )
+        }
+
+        return (
+          <div className="card" style={{ padding: 24 }}>
+            <p style={sectionLabel}>Call context</p>
+            <VariableFormFields
+              fields={agent.templateContext}
+              values={formValues}
+              onChange={setFormValues}
+            />
+          </div>
+        )
+      })()}
 
       {/* Destination section */}
       <div className="card" style={{ padding: 24 }}>

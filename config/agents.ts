@@ -2,7 +2,7 @@ export interface TemplateField {
   key: string
   label: string
   placeholder: string
-  type: 'text' | 'number' | 'select'
+  type: 'text' | 'number' | 'select' | 'textarea'
   required: boolean
   options?: string[]
 }
@@ -51,10 +51,47 @@ export const AGENTS: AgentConfig[] = [
     slug: 'opm-outbound',
     name: 'OPM Outbound',
     agentId: 'fd16bcbb-4c92-4983-8d86-653003bb9a68',
-    description: 'Outbound order-taking agent for Tender Rongai sauces & condiments',
+    description: 'Outbound order-taking agent — fill in your company, products & customer details',
     tag: 'Outbound',
     sipFrom: 'NectorU',
     templateContext: [
+      // ── Agent / Company ──
+      {
+        key: 'agent_name',
+        label: 'Agent Name',
+        placeholder: 'e.g. Amara',
+        type: 'text',
+        required: true,
+      },
+      {
+        key: 'company_name',
+        label: 'Company Name',
+        placeholder: 'e.g. Tender Rongai',
+        type: 'text',
+        required: true,
+      },
+      {
+        key: 'company_short_name',
+        label: 'Company Short Name',
+        placeholder: 'e.g. Tender',
+        type: 'text',
+        required: true,
+      },
+      {
+        key: 'product_or_service',
+        label: 'Product / Service (short description)',
+        placeholder: 'e.g. sauces and condiments',
+        type: 'text',
+        required: true,
+      },
+      {
+        key: 'context',
+        label: 'Product Catalog & Instructions',
+        placeholder: 'List your available products, pricing, payment methods, delivery info, and any agent instructions. The AI agent will use this during the call.',
+        type: 'textarea',
+        required: true,
+      },
+      // ── Customer Details ──
       {
         key: 'client_name',
         label: 'Customer Name',
@@ -89,12 +126,6 @@ export const AGENTS: AgentConfig[] = [
     staticContext: {
       from: 'NectorU',
       call_type: 'outbound',
-      agent_name: 'Amara',
-      company_name: 'Tender Rongai',
-      company_short_name: 'Tender',
-      product_or_service: 'sauces and condiments',
-      context:
-        'AVAILABLE PRODUCTS (present only these to the customer):\n- Tomato Sauce Large (12x1kg) — In Stock\n- Tomato Sauce (24x400g) — In Stock\n- Tomato Sauce (24x250g) — In Stock\n- Tomato Sauce (12x700g) — In Stock\n- Tomato Sauce Sachet (360x20g) — In Stock\n- Premium Tomato Sauce Sachet (360x20g) — In Stock\n- Choma Sauce (24x400g) — In Stock\n- Hot and Sweet Sauce (24x400g) — In Stock\n- Hot and Sweet Sauce (24x250g) — In Stock\n- Hot and Sweet Sauce (12x700g) — In Stock\n- Tomato Garlic Sauce (12x700g) — In Stock\n- Tomato Ketchup (24x400g) — In Stock\n- Tomato Ketchup (12x700g) — In Stock\n- Tomato Ketchup in Gallons (1x5kg) — In Stock\n- Tomato Sauce in Gallons (1x5kg) — In Stock\n- Mamas Choice Chips Sauce Sachet (300x20g) — In Stock\n- Vinegar White (12x700ml) — In Stock\n- White Vinegar (1x5 Litres) — In Stock\n- Peptang Red Plum Jam (24x100g) — In Stock\n- Creamy Peanut Butter (400g x12) — In Stock\n\nPAYMENT METHODS: Cash on Delivery | M-Pesa | Bank Transfer\n\nDELIVERY: Available across Rongai area and surrounding zones. Same day or next day depending on order time and location. Rider calls customer when nearby.\n\nIf customer asks about pricing: let them know the team will confirm exact pricing on follow-up.',
     },
   },
   {
